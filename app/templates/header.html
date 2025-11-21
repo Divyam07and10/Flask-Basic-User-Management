@@ -1,0 +1,67 @@
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow">
+        <div class="container">
+
+            <a class="navbar-brand" href="{{ url_for('home') }}">
+                User Manager
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('home') }}">Home</a></li>
+
+                    <li class="nav-item logged-out d-none">
+                        <a class="nav-link" href="{{ url_for('auth.login') }}">
+                            Login
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item logged-out d-none ms-lg-2">
+                        <a class="nav-link btn btn-primary px-3 py-2" href="{{ url_for('auth.register') }}">
+                            Register
+                        </a>
+                    </li>
+
+                    <li class="nav-item logged-in d-none"><a class="nav-link" href="{{ url_for('users.list_users_template') }}">Users</a></li>
+                    <li class="nav-item logged-in d-none"><a class="nav-link" href="{{ url_for('auth.dashboard_page') }}">Dashboard</a></li>
+                    <li class="nav-item logged-in d-none"><a class="nav-link" href="{{ url_for('users.edit_me_redirect') }}">Profile</a></li>
+                    
+                    <li class="nav-item logged-in d-none ms-lg-2">
+                        <a class="nav-link btn btn-outline-light px-3 py-2" href="{{ url_for('auth.logout') }}">
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<script>
+    async function updateNavbar() {
+        try {
+            const res = await fetch("/auth/check", { credentials: "include" });
+            const data = await res.json();
+
+            if (data.logged_in) {
+                document.querySelectorAll(".logged-in").forEach(e => e.classList.remove("d-none"));
+                document.querySelectorAll(".logged-out").forEach(e => e.classList.add("d-none"));
+            } else {
+                document.querySelectorAll(".logged-out").forEach(e => e.classList.remove("d-none"));
+                document.querySelectorAll(".logged-in").forEach(e => e.classList.add("d-none"));
+            }
+        } catch (e) {
+            // On error, assume not logged in
+            document.querySelectorAll(".logged-out").forEach(e => e.classList.remove("d-none"));
+            document.querySelectorAll(".logged-in").forEach(e => e.classList.add("d-none"));
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", updateNavbar);
+</script>

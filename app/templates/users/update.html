@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Edit Profile</h2>
+
+<form id="updateUserForm">
+
+    <input id="name" placeholder="Name" value="{{ user.name }}"><br>
+
+    <input id="email" placeholder="Email" value="{{ user.email }}"><br>
+
+    <label>DOB</label>
+    <input id="dob" type="date" value="{{ user.dob }}"><br><br>
+
+    <hr>
+    <p>Enter old password to change password:</p>
+
+    <input id="old_password" type="password" placeholder="Old Password"><br>
+    <input id="new_password" type="password" placeholder="New Password"><br>
+
+    <button type="submit">Update</button>
+</form>
+
+<div id="updateMessage"></div>
+
+<script src="{{ url_for('static', filename='js/update_user.js') }}"></script>
+
+{% endblock %}

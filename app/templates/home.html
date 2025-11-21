@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="home-hero mt-4 position-relative overflow-hidden rounded-3 shadow-lg">
+    <img src="{{ url_for('static', filename='images/fcbflag.jpg') }}" alt="Banner" class="img-fluid w-100 h-100 object-fit-cover">
+    
+    <div class="home-hero-overlay position-absolute top-0 start-0 w-100 h-100 p-5 d-flex flex-column justify-content-center align-items-center text-center text-white">
+        <h1 class="display-5 fw-bold mb-3">User Management App</h1>
+        <p class="lead mb-4">Secure login, clean profiles, and safe account deactivation &amp; reactivation.</p>
+        
+        <div class="d-flex gap-3 flex-wrap justify-content-center home-hero-buttons">
+            <div class="home-logged-out">
+                <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light btn-lg px-4">Login</a>
+                <a href="{{ url_for('auth.register') }}" class="btn btn-outline-light btn-lg px-4">Register</a>
+            </div>
+            <div class="home-logged-in d-none">
+                <a href="{{ url_for('auth.dashboard_page') }}" class="btn btn-outline-light btn-lg px-4">Go to dashboard</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title">🚀 Core Features</h5>
+                <ul class="mb-0">
+                    <li>**JWT cookie-based authentication** for secure sessions.</li>
+                    <li>**Profile editing** with mandatory password confirmation.</li>
+                    <li>**Logical account deactivation** &amp; password-based reactivation.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title">🛡️ Security & Integrity</h5>
+                <p class="card-text">Built with modern security practices to ensure user data remains safe and accounts are managed responsibly.</p>
+                <a href="{{ url_for('auth.register') }}" class="btn btn-outline-primary btn-sm mt-2 home-logged-out-card-button">Get Started Today</a>
+                </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', async function () {
+    try {
+        const res = await fetch('/auth/check', { credentials: 'include' });
+        const data = await res.json();
+        const loggedOutHero = document.querySelector('.home-logged-out');
+        const loggedInHero = document.querySelector('.home-logged-in');
+        // START FIX: Get the card button element
+        const cardButton = document.querySelector('.home-logged-out-card-button');
+        // END FIX
+
+        if (data.logged_in) {
+            // Hide Logged Out Hero buttons
+            if (loggedOutHero) loggedOutHero.classList.add('d-none');
+            // Show Logged In Hero button
+            if (loggedInHero) loggedInHero.classList.remove('d-none');
+            // START FIX: Hide the card button when logged in
+            if (cardButton) cardButton.classList.add('d-none');
+            // END FIX
+        } else {
+            // Show Logged Out Hero buttons
+            if (loggedOutHero) loggedOutHero.classList.remove('d-none');
+            // Hide Logged In Hero button
+            if (loggedInHero) loggedInHero.classList.add('d-none');
+            // START FIX: Show the card button when logged out (it's visible by default, but this ensures it)
+            if (cardButton) cardButton.classList.remove('d-none');
+            // END FIX
+        }
+    } catch (e) {
+        console.error('Failed to check login status:', e);
+    }
+});
+</script>
+
+{% endblock %}

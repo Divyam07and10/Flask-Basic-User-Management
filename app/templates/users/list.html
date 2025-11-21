@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>User List</h2>
+
+<form method="get" class="row g-2 align-items-end mt-2 mb-3">
+    <div class="col-md-3">
+        <label for="status" class="form-label">Status</label>
+        <select class="form-select" id="status" name="status">
+            <option value="all" {% if status == 'all' %}selected{% endif %}>All users</option>
+            <option value="active" {% if status == 'active' %}selected{% endif %}>Active only</option>
+            <option value="inactive" {% if status == 'inactive' %}selected{% endif %}>Inactive only</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <label for="sort_by" class="form-label">Sort by</label>
+        <select class="form-select" id="sort_by" name="sort_by">
+            <option value="id" {% if sort_by == 'id' %}selected{% endif %}>ID</option>
+            <option value="name" {% if sort_by == 'name' %}selected{% endif %}>Name</option>
+            <option value="created" {% if sort_by == 'created' %}selected{% endif %}>Created</option>
+            <option value="last_login" {% if sort_by == 'last_login' %}selected{% endif %}>Last login</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <label for="order" class="form-label">Order</label>
+        <select class="form-select" id="order" name="order">
+            <option value="asc" {% if order == 'asc' %}selected{% endif %}>Ascending</option>
+            <option value="desc" {% if order == 'desc' %}selected{% endif %}>Descending</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <button type="submit" class="btn btn-primary w-100">Apply</button>
+    </div>
+</form>
+
+<div class="table-responsive mt-1">
+    <table class="table table-striped align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Date of Birth</th>
+                <th scope="col">Status</th>
+                <th scope="col">Created</th>
+                <th scope="col">Last Login</th>
+                <th scope="col">Updated</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in users %}
+            <tr>
+                <td>{{ u.id }}</td>
+                <td>{{ u.name }}</td>
+                <td>{{ u.email }}</td>
+                <td>{{ u.dob.strftime('%Y-%m-%d') if u.dob else '' }}</td>
+                <td>
+                    {% if u.is_active %}
+                        <span class="badge bg-success">Active</span>
+                    {% else %}
+                        <span class="badge bg-danger">Inactive</span>
+                    {% endif %}
+                </td>
+                <td>{{ u.created_at.strftime('%Y-%m-%d %H:%M') if u.created_at else '' }}</td>
+                <td>{{ u.last_login_datetime.strftime('%Y-%m-%d %H:%M') if u.last_login_datetime else '' }}</td>
+                <td>{{ u.updated_at.strftime('%Y-%m-%d %H:%M') if u.updated_at else '' }}</td>
+                <td>
+                    {% if u.id == current_user %}
+                        <a href="{{ url_for('users.edit_me_redirect') }}" class="btn btn-sm btn-primary me-1">Edit</a>
+                        <button onclick="deleteUser({{ u.id }})" class="btn btn-sm btn-danger">Deactivate</button>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script src="{{ url_for('static', filename='js/delete_user.js') }}"></script>
+
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4 auth-card">
+        <h2 class="mb-4 text-center">Edit Profile</h2>
+
+        <form id="editForm">
+            <div class="mb-3">
+                <label for="name" class="form-label">Full name</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ user.name }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" disabled>
+            </div>
+            <div class="mb-3">
+                <label for="dob" class="form-label">Date of birth</label>
+                <input type="date" class="form-control" id="dob" name="dob" value="{{ user.dob.strftime('%Y-%m-%d') if user.dob else '' }}">
+            </div>
+            <div class="mb-3">
+                <label for="old_password" class="form-label">Current password (only if changing password)</label>
+                <div class="input-group" data-password-toggle>
+                    <input type="password" class="form-control" id="old_password" name="old_password" placeholder="Current password">
+                    <button class="btn btn-outline-secondary" type="button" data-toggle-eye>
+                        <i class="bi bi-eye" data-eye-open></i>
+                        <i class="bi bi-eye-slash d-none" data-eye-closed></i>
+                    </button>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="new_password" class="form-label">New password</label>
+                <div class="input-group" data-password-toggle>
+                    <input type="password" class="form-control" id="new_password" name="new_password" placeholder="New password">
+                    <button class="btn btn-outline-secondary" type="button" data-toggle-eye>
+                        <i class="bi bi-eye" data-eye-open></i>
+                        <i class="bi bi-eye-slash d-none" data-eye-closed></i>
+                    </button>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Save changes</button>
+        </form>
+
+        <div id="editMessage" class="mt-3"></div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('editForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const userId = {{ user.id }};
+        const payload = {
+            name: document.getElementById('name').value,
+            dob: document.getElementById('dob').value || null
+        };
+
+        const oldPwd = document.getElementById('old_password').value;
+        const newPwd = document.getElementById('new_password').value;
+        if (oldPwd && newPwd) {
+            payload.old_password = oldPwd;
+            payload.new_password = newPwd;
+        }
+
+        function isStrongPassword(pwd) {
+            return pwd.length >= 8 && /[a-z]/.test(pwd) && /[A-Z]/.test(pwd) && /[0-9]/.test(pwd) && /[^A-Za-z0-9]/.test(pwd);
+        }
+
+        if (newPwd && !isStrongPassword(newPwd)) {
+            msg.innerText = 'New password must be at least 8 characters and include upper, lower, number, and symbol.';
+            msg.className = 'mt-3 alert alert-danger';
+            return;
+        }
+
+        const res = await fetch(`/users/${userId}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify(payload),
+        });
+
+        const data = await res.json();
+        const msg = document.getElementById('editMessage');
+        msg.innerText = data.message || 'Updated';
+        msg.className = 'mt-3 alert ' + (res.ok ? 'alert-success' : 'alert-danger');
+
+        if (res.ok) {
+            setTimeout(() => { window.location.href = '/users/list'; }, 1000);
+        }
+    });
+</script>
+
+{% endblock %}

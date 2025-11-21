@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4 auth-card">
+        <h2 class="mb-4 text-center">Confirm Password</h2>
+
+        <p class="mb-3">Enter your password to continue to the profile update screen.</p>
+
+        <form method="post">
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-group" data-password-toggle>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+                    <button class="btn btn-outline-secondary" type="button" data-toggle-eye>
+                        <i class="bi bi-eye" data-eye-open></i>
+                        <i class="bi bi-eye-slash d-none" data-eye-closed></i>
+                    </button>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Continue</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

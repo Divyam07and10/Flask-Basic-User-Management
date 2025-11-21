@@ -1,0 +1,167 @@
+/* --- Global Body & Layout --- */
+body {
+    /* Slightly lighter background for better contrast */
+    background: #f5f5f5; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Auth Card Styling (for login/register pages) */
+.auth-card {
+    max-width: 420px;
+    margin: 3rem auto;
+    /* Stronger, cleaner shadow for forms */
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important; 
+    border-radius: 12px;
+}
+
+/* --- Navbar & Header Styling --- */
+.navbar {
+    /* Subtle shadow for lift */
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15); 
+}
+
+/* Override default dark background with a professional blue gradient */
+.navbar.bg-dark {
+    background: linear-gradient(90deg, #0b1f3b, #0d6efd) !important;
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    letter-spacing: 0.05em;
+}
+
+.navbar .nav-link {
+    /* Pill shape for links */
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+}
+
+.navbar .nav-link:hover {
+    /* Subtle highlight and lift on hover */
+    background-color: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.navbar .nav-link.active {
+    /* More pronounced highlight for the active link */
+    background-color: rgba(255, 255, 255, 0.22);
+}
+
+/* --- Table Styling (for dashboard/admin pages) --- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    padding: 12px;
+    border: 1px solid #dee2e6;
+    text-align: left;
+}
+
+/* Table Header Styling */
+table th {
+    background-color: #e9ecef;
+    font-weight: bold;
+    color: #343a40;
+}
+
+/* --- Home Page Hero Section Styling --- */
+
+/* Hero Container: Defines size and establishes positioning context for overlay */
+.home-hero {
+    height: 400px; 
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Image Styling: Ensures the image covers the hero container */
+.home-hero img {
+    object-fit: cover;
+}
+
+/* Overlay Styling: Positions the content over the image and adds a dark tint */
+.home-hero-overlay {
+    background-color: rgba(0, 0, 0, 0.55);
+    color: white;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.9);
+}
+
+/* Hero Heading Styling */
+.home-hero-overlay h1 {
+    font-size: 3rem;
+    font-weight: 900 !important;
+}
+
+/* Hero Paragraph Styling */
+.home-hero-overlay .lead {
+    font-size: 1.25rem;
+}
+
+/* Feature Card Styling for clean appearance */
+.card-title {
+    color: #0d6efd;
+    font-weight: bold;
+    border-bottom: 2px solid #0d6efd40;
+    padding-bottom: 5px;
+}
+
+.card ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.card ul li {
+    padding: 5px 0;
+    line-height: 1.4;
+}
+
+/* --- CUSTOM BUTTON HOVER STYLES (Applies to Register/Logout) --- */
+/* Base button style for consistent UI across primary/outline buttons */
+.btn-primary,
+.btn-outline-primary,
+.btn-danger,
+.btn-outline-danger,
+.btn-warning,
+.btn-outline-warning,
+.btn-outline-light {
+    border-radius: 999px; /* Pill shape */
+    padding: 0.4rem 1.1rem;
+    font-weight: 500;
+    box-shadow: 0 0.15rem 0.3rem rgba(0, 0, 0, 0.12);
+    transition: all 0.15s ease-in-out;
+}
+
+/* Lift effect on hover for solid buttons */
+.btn-primary:hover,
+.btn-danger:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.18);
+}
+
+/* Hover effect for ALL outline buttons: changes to solid blue */
+.btn-outline-light:hover,
+.btn-outline-primary:hover,
+.btn-outline-danger:hover,
+.btn-outline-warning:hover {
+    background-color: #0056b3 !important; /* Standard dark blue */
+    color: #fff !important;
+    border-color: #0056b3 !important;
+    transform: translateY(-1px);
+}
+
+/* --- Footer Styling --- */
+/* Consistent dark blue color matching the start of the header gradient */
+footer.bg-dark {
+    background: #0b1f3b !important; /* Ensure override */
+    box-shadow: 0 -0.25rem 0.5rem rgba(0, 0, 0, 0.2);
+    font-size: 0.9rem;
+}

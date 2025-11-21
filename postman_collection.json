@@ -1,0 +1,182 @@
+{
+  "info": {
+    "name": "Flask User Management API",
+    "description": "Postman collection for auth and user endpoints in the Flask User Management app.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/x-www-form-urlencoded" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                { "key": "name", "value": "Test User" },
+                { "key": "email", "value": "test@example.com" },
+                { "key": "password", "value": "Test@1234" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/x-www-form-urlencoded" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                { "key": "email", "value": "test@example.com" },
+                { "key": "password", "value": "Test@1234" }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Dashboard (GET)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/auth/dashboard",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "dashboard"]
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/auth/logout",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "logout"]
+            }
+          }
+        },
+        {
+          "name": "Reactivate (password)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/x-www-form-urlencoded" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/reactivate?email={{reactivateEmail}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "reactivate"],
+              "query": [
+                { "key": "email", "value": "{{reactivateEmail}}" }
+              ]
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                { "key": "password", "value": "Test@1234" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Auth Check (JSON)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/auth/check",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "check"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "List Users (HTML)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/users/list",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "list"]
+            }
+          }
+        },
+        {
+          "name": "Create User (API)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", ""]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"API User\",\n  \"email\": \"apiuser@example.com\",\n  \"password\": \"Api@1234\",\n  \"dob\": \"2000-01-01\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Current User (PATCH)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "{{userId}}"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Name\",\n  \"dob\": \"1999-12-31\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete (Deactivate) Current User",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "{{userId}}"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://127.0.0.1:5000" },
+    { "key": "userId", "value": "1" },
+    { "key": "reactivateEmail", "value": "test@example.com" }
+  ]
+}
