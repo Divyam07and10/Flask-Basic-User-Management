@@ -22,7 +22,6 @@ instance/
 
 # Environment & config
 .env
-.env.*
 *.flaskenv
 
 # Logs
